@@ -81,7 +81,19 @@ def print_section_skills(section_dict):
 
 
 def add_section_line(entry=""):
+    entry = simple_parse(entry)
     return "    {" + entry + "}\n"
+
+
+def simple_parse(entry):
+    print(entry)
+    entry = re.sub(r'\*\*(?P<bolded>.*?)\*\*', r'\\textbf{\g<bolded>}', entry)
+    entry = re.sub("\|", "$|$", entry)
+    entry = re.sub("&", "\&", entry)
+    entry = re.sub("%", "\%", entry)
+    entry = re.sub(r"(?i)latex", "\LaTeX", entry)
+    print(entry)
+    return entry
 
 
 def add_repeat_section_line(item, section_dict):
@@ -105,7 +117,7 @@ def end_document():
 
 def main(argv):
     parsed_args = arg_parser(argv)
-    config = configparser.ConfigParser()
+    config = configparser.RawConfigParser()
     config.read(parsed_args.ini_file)
     tex_file_name = re.sub("\.pdf$", "", parsed_args.out_file) + '.tex'
     with open(tex_file_name, "w") as tex_file:
