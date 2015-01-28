@@ -1,24 +1,24 @@
 [Head]
 Name: John Doe
 Info 1: john.doe@example.com
-Info 2: 555-867-5309 $|$ 555-999-1234
+Info 2: 555-867-5309 | 555-999-1234
 Info 3: example.com/john.doe
 
 [Education1]
 Location: University of Wherever
 Position: Degree in Something
 Start Date: September 2010
-End Date: present
+End Date: May 2014
 Description 1: Learned the thing
 Description 2: Did the thing
 
 [Education2]
 Location: University of Wherever
-Position: Degree in Something
-Start Date: September 2010
+Position: Master's Degree in Something
+Start Date: September 2014
 End Date: present
-Description 1: Learned the thing
-Description 2: Did the thing
+Description 1: Learned the master's thing
+Description 2: Did the master's thing
 
 [Experience1]
 Location: Company, Inc.

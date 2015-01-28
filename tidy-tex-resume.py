@@ -1,5 +1,6 @@
 import argparse
 import configparser
+import os
 import re
 import subprocess
 import sys
@@ -17,7 +18,7 @@ def arg_parser(argv):
     args = parser.parse_args(argv)
 
     if not args.out_file:
-        args.out_file = re.sub("\.ini$", "", args.ini_file) + '.pdf'
+        args.out_file = change_ext(args.ini_file, 'ini', 'pdf')
     return args
 
 
@@ -81,19 +82,34 @@ def print_section_skills(section_dict):
 
 
 def add_section_line(entry=""):
-    entry = simple_parse(entry)
+    entry = latex_parse(entry)
     return "    {" + entry + "}\n"
 
 
-def simple_parse(entry):
+def latex_parse(entry):
     print(entry)
-    entry = re.sub(r'\*\*(?P<bolded>.*?)\*\*', r'\\textbf{\g<bolded>}', entry)
+    entry = re.sub("\\\\", "\\\\textbackslash", entry)
+    entry = re.sub("#", "\\#", entry)
+    entry = re.sub("\\$", "\\$", entry)
+    entry = re.sub("%", "\\%", entry)
+    entry = re.sub("&", "\\&", entry)
+    entry = re.sub("_", "\\_", entry)
+    entry = re.sub("{", "$\\left\\{\\\\right.$", entry)
+    entry = re.sub("}", "$\\left.\\\\right\\}$", entry)
+    entry = re.sub("~", "\\\\textasciitilde", entry)
     entry = re.sub("\|", "$|$", entry)
-    entry = re.sub("&", "\&", entry)
-    entry = re.sub("%", "\%", entry)
+    entry = re.sub("\\^", "$\string^$", entry)
+    entry = re.sub("<", "$<$", entry)
+    entry = re.sub(">", "$>$", entry)
     entry = re.sub(r"(?i)latex", "\LaTeX", entry)
+    entry = re.sub("(?:^|\s)'", "`", entry)
+    entry = re.sub(r'\*\*(?P<bolded>.*?)\*\*', r'\\textbf{\g<bolded>}', entry)
     print(entry)
     return entry
+
+
+def silent_remove(file):
+    os.remove(file) if os.path.exists(file) else None
 
 
 def add_repeat_section_line(item, section_dict):
@@ -115,19 +131,33 @@ def end_document():
     return "\\end{document}\n"
 
 
+def change_ext(file, old_ext, new_ext):
+    remove = "\." + old_ext + "$"
+    add = "." + new_ext
+    return re.sub(remove, "", file) + add
+
+
 def main(argv):
     parsed_args = arg_parser(argv)
+    ini_file = parsed_args.ini_file
+    sty_file = parsed_args.sty_file
+    out_file = parsed_args.out_file
+
     config = configparser.RawConfigParser()
-    config.read(parsed_args.ini_file)
-    tex_file_name = re.sub("\.pdf$", "", parsed_args.out_file) + '.tex'
+    config.read(ini_file)
+    silent_remove(out_file)
+    silent_remove(change_ext(out_file, 'pdf', 'tex'))
+    tex_file_name = change_ext(out_file, 'pdf', 'tex')
     with open(tex_file_name, "w") as tex_file:
-        tex_file.write(start_document(parsed_args.sty_file))
+        tex_file.write(start_document(sty_file))
         for section in config.sections():
             section_dict = config[section]
             section_tex = section_to_tex(section, section_dict)
             tex_file.write(section_tex)
         tex_file.write(end_document())
     subprocess.call(["pdflatex", tex_file_name])
+    silent_remove(change_ext(out_file, 'pdf', 'aux'))
+    silent_remove(change_ext(out_file, 'pdf', 'log'))
     return 0
 
 
