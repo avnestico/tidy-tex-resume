@@ -47,7 +47,9 @@ def print_section_head(section_dict):
 def print_section_entry(section, section_dict):
     text = ""
     ends_with_number = re.match("^(.*)(\d+)$", section)
-    if not ends_with_number or (ends_with_number and int(ends_with_number.group(2)) == 1):
+    if not ends_with_number:
+        text += "\\section*{" + section.strip() + "}\n\n"
+    if ends_with_number and int(ends_with_number.group(2)) == 1:
         text += "\\section*{" + str(ends_with_number.group(1)).strip() + "}\n\n"
     text += "\\resumeentry\n"
     text += add_section_line(section_dict["location"])
@@ -83,6 +85,9 @@ def add_section_line(entry=""):
 
 
 def add_repeat_section_line(item, section_dict):
+    if item in section_dict:
+        return add_section_line(section_dict[item])
+    # else items are of the form "item 1", "item 2", etc.
     text = ""
     i = 0
     while 1:
@@ -110,7 +115,6 @@ def main(argv):
             section_tex = section_to_tex(section, section_dict)
             tex_file.write(section_tex)
         tex_file.write(end_document())
-    print(tex_file_name)
     subprocess.call(["pdflatex", tex_file_name])
     return 0
 
