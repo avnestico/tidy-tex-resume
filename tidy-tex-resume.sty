@@ -1,0 +1,179 @@
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[left=1in,top=.75in,right=1in,bottom=.75in]{geometry}
+\usepackage{array}
+\usepackage{ifthen}
+
+\setlength{\tabcolsep}{0pt}
+ 
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newenvironment{blockquote}{%
+  \leftskip=1em%
+  \setlength\parindent{0em}\ignorespaces}{%
+  \par}
+  
+\hfuzz=3pt
+
+\pagenumbering{gobble} % Remove page numbers
+
+%-----------------------------------------------------------
+% Resume functions
+%-----------------------------------------------------------
+
+\makeatletter
+
+%-----------------------------------------------------------
+% Resume Head
+%-----------------------------------------------------------
+
+\newcommand{\resumehead}[1]
+{
+	\noindent \begin{tabular}{ L{.5\textwidth} R{.5\textwidth} }
+
+	\Huge 					#1
+	\vspace{-3pt} &
+	\scriptsize
+	\@rhcheck
+}
+
+\newcommand{\@rhcheck}
+{
+	\@ifnextchar\resumeheadend{\@rhend}{\@rhprint}
+}
+
+\newcommand{\@rhprint}[1]
+{
+	#1
+	
+	\@rhcheck
+}
+
+\newcommand{\@rhend}[1]{
+	\end{tabular}
+	
+	\vspace{-6px}
+}
+
+%-----------------------------------------------------------
+% Resume Body
+%-----------------------------------------------------------
+
+\newcommand{\resumeentry}[4]
+{
+	\vspace{11pt} \noindent \begin{tabular}{L{.75\textwidth} R{.25\textwidth}}
+
+	\Large 					#1\ifthenelse{\equal{#2}{}}{}{ -- }#2
+	& \small \textit{		#3\ifthenelse{\equal{#4}{}}{}{ -- }#4
+	}\end{tabular} \vspace{2pt}
+
+	\begin{blockquote}
+	\@recheck
+}
+
+\newcommand{\@recheck}
+{
+	\@ifnextchar\resumeheadend{\@reend}{\@reprint}
+}
+
+\newcommand{\@reprint}[1]
+{
+	#1
+	
+	\@recheck
+}
+
+\newcommand{\@reend}[1]{
+	\end{blockquote}
+}
+
+
+
+%-----------------------------------------------------------
+% Resume Skills
+%-----------------------------------------------------------
+
+\newcommand{\resumeskills}
+{
+	\vspace{11pt}
+
+	\begin{blockquote}
+	
+	\@rscheck
+}
+
+\newcommand{\@rscheck}
+{
+	\@ifnextchar\resumeskillsend{\@rsend}{\@rsprint}
+}
+
+\newcommand{\@rsprint}[1]
+{
+	#1
+	
+	\@rscheck
+}
+
+\newcommand{\@rsend}[1]{
+	\end{blockquote}
+}
+
+%-----------------------------------------------------------
+% Source of the following code:
+% http://zoonek.free.fr/LaTeX/LaTeX_samples_section/0.html (example 13)
+% Modified: Replaced "5ex\goodbreak" with "4ex\goodbreak"
+% 			Replaced "2ex\nobreak" with "1ex\nobreak"
+%           Added "\vspace{-8pt}"
+%           Added "\vspace{-11pt}"
+%-----------------------------------------------------------
+
+\def\section{\@ifstar\unnumberedsection\numberedsection}
+\def\numberedsection{\@ifnextchar[%]
+  \numberedsectionwithtwoarguments\numberedsectionwithoneargument}
+\def\unnumberedsection{\@ifnextchar[%]
+  \unnumberedsectionwithtwoarguments\unnumberedsectionwithoneargument}
+\def\numberedsectionwithoneargument#1{\numberedsectionwithtwoarguments[#1]{#1}}
+\def\unnumberedsectionwithoneargument#1{\unnumberedsectionwithtwoarguments[#1]{#1}}
+\def\numberedsectionwithtwoarguments[#1]#2{%
+  \vspace{-8pt}
+  \ifhmode\par\fi
+  \removelastskip
+  \vskip 4ex\goodbreak
+  \refstepcounter{section}%
+  \hbox to \hsize{\hss\vbox{\advance\hsize by 1cm
+      \noindent
+      \leavevmode\Large\bfseries\raggedright
+      \thesection.\ 
+      #2\par
+      \vskip -2ex
+      \noindent\hrulefill
+      }}\nobreak
+  \vskip 1ex\nobreak
+  \addcontentsline{toc}{section}{%
+    \protect\numberline{\thesection}%
+    #1}%
+  \vspace{-11pt}
+  }
+\def\unnumberedsectionwithtwoarguments[#1]#2{%
+  \vspace{-8pt}
+  \ifhmode\par\fi
+  \removelastskip
+  \vskip 4ex\goodbreak
+%  \refstepcounter{section}%
+  \hbox to \hsize{\hss\vbox{\advance\hsize by 1cm
+      \noindent
+      \leavevmode\Large\bfseries\raggedright
+%      \thesection\ 
+      #2\par
+      \vskip -2ex
+      \noindent\hrulefill
+      }}\nobreak
+  \vskip 1ex\nobreak
+  \addcontentsline{toc}{section}{%
+%    \protect\numberline{\thesection}%
+    #1}%
+  \vspace{-11pt}
+  }
+\makeatother
