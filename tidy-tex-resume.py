@@ -14,12 +14,17 @@ def arg_parser(argv):
     """
     parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
                                      description='Turn plain text into a beautiful LaTeX resume.')
-    parser.add_argument('-i', '--ini', dest='ini_file', required='True',
-                        help='The .ini file containing your resume text\nSee resume.ini.example if you\'re stuck')
+    parser.add_argument('ini_file',
+                        help='The .ini file containing your resume text. See resume.ini.example if you\'re stuck.')
     parser.add_argument('-s', '--sty', dest='sty_file', default='tidy-tex-resume.sty',
-                        help='The .sty file used to style your resume\nYou can use a built-in file or add your own')
+                        help='The .sty file used to style your resume. You can use a built-in file or add your own.')
     parser.add_argument('-o', '--out', dest='out_file',
-                        help='The file name of the pdf output of this script')
+                        help='The file name of the pdf output of this script.')
+    parser.add_argument('-f', '--font', dest='font_size', type=int, default=11,
+                        help='The font size of the resulting document. 11 pt is the default; 10 and 12 are good.')
+    parser.add_argument('--no-clean', dest='clean_clutter', action='store_false',
+                        help='Set this flag if you want to retain the .aux and .log files created by pdflatex.')
+    parser.set_defaults(clean_clutter=True)
     args = parser.parse_args(argv)
 
     if not args.out_file:
@@ -46,14 +51,20 @@ def change_ext(file, old_ext, new_ext=""):
     return re.sub(remove, "", file) + add
 
 
-def start_document(sty_file):
+def start_document(sty_file, font_size):
     """ Begins the resume and imports its STY file.
 
     :param sty_file:
     :return:
     """
+    # \usepackage{} syntax drops the file extension from STY files
     sty_file = change_ext(sty_file, "sty")
-    return "\\documentclass[11pt]{article}\n\n\\usepackage{" + sty_file + "}\n\n\\begin{document}\n\n"
+
+    opening_text = "\\documentclass[" + str(font_size) + "pt]{article}\n\n" \
+                   "\\usepackage{" + sty_file + "}\n\n" \
+                   "\\begin{document}\n\n"
+
+    return opening_text
 
 
 def section_to_tex(section, section_dict):
@@ -227,10 +238,11 @@ def silent_remove(file):
     os.remove(file) if os.path.exists(file) else None
 
 
-def ini_to_tex(ini_file, sty_file, out_file):
-    """ Take in the names of an INI file, a STY file, and a PDF file
+def ini_to_tex(ini_file, sty_file, out_file, font_size):
+    """ Take in the names of an INI file, a STY file, a PDF file, and the document's font size
     Uses the INI and STY files to build a TEX file that can be processed into the PDF file
 
+    :param font_size:
     :param ini_file:
     :param sty_file:
     :param out_file:
@@ -245,7 +257,7 @@ def ini_to_tex(ini_file, sty_file, out_file):
 
     # Write each segment into the TEX file in the order that they appear in the INI file
     with open(tex_file_name, "w") as tex_file:
-        tex_file.write(start_document(sty_file))
+        tex_file.write(start_document(sty_file, font_size))
         for section in config.sections():
             section_dict = config[section]
             section_tex = section_to_tex(section, section_dict)
@@ -263,17 +275,21 @@ def main(args):
     ini_file = args.ini_file
     sty_file = args.sty_file
     out_file = args.out_file
+    font_size = args.font_size
+    clean_clutter = args.clean_clutter
 
     # If there exists a pdf with a name that matches out_file, delete it
     silent_remove(out_file)
 
     # Process INI file into PDF
-    tex_output = ini_to_tex(ini_file, sty_file, out_file)
+    tex_output = ini_to_tex(ini_file, sty_file, out_file, font_size)
     subprocess.call(["pdflatex", tex_output])
 
     # Clean up clutter
-    silent_remove(change_ext(tex_output, 'tex', 'aux'))
-    silent_remove(change_ext(tex_output, 'tex', 'log'))
+    if clean_clutter:
+        silent_remove(change_ext(tex_output, 'tex', 'aux'))
+        silent_remove(change_ext(tex_output, 'tex', 'log'))
+
     return 0
 
 

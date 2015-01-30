@@ -10,7 +10,7 @@ tidy-tex-resume takes a properly written INI file, wraps it in a thin layer of L
 * that's it!
 
 ### Out-of-the-box functionality
-    python tidy-tex-resume.py -i resume.ini.example
+    python tidy-tex-resume.py resume.ini.example
     python tidy-tex-resume.py -h
 
 ### Usage
@@ -71,7 +71,11 @@ Once your INI file is ready, simply run
 
 Your resume will be formatted and output as `resume.pdf`.
 
-### Other args
+### Other Arguments
 
-    -s: Change the .sty file used to format your document (uses tidy-tex-resume.sty by default)
-    -o: Rename the .pdf output file (has the same name as the input file by default)
+    -s STY_FILE:  Change the .sty file used to format your document (uses tidy-tex-resume.sty by default)
+    -o OUT_FILE:  Rename the .pdf output file (has the same name as the input file by default)
+    -f FONT_SIZE: Change the font size in the resulting pdf (11 is the default, and you probably want to stay between 10 and 12)
+    --no-clean:   pdflatex creates a few auxiliary files, which are deleted by default but can be retained if this flag is set
+    
+    $ python tidy-tex-resume.py resume.ini -s custom.sty -o "John Doe Resume.pdf" -f 12 --no-clean
