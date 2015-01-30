@@ -1,6 +1,6 @@
 # tidy-tex-resume
 
-## A small utility that turns plain text into beautiful LaTeX resumes.
+## Turn plain text into a beautiful LaTeX resume.
 
 tidy-tex-resume takes a properly written INI file, wraps it in a thin layer of LaTeX, and turns it into a stylish PDF. By separating content from formatting, tidy-tex-resume lets anyone harness the typesetting power of LaTeX without needing to delve into code.
 
@@ -34,20 +34,20 @@ The body is the only section of your INI that should contain multiple entries. R
     [Education 1]
     Location: University of Wherever  
     Position: Degree in Something
-    Start Date: September 2010
+    Start Date: Sept 2010
     End Date: May 2014
     Description 1: Learned the thing
     Description 2: Did the thing
 
-As you can see, each body entry must contain a location, position, and date; it can also have any number of description lines, which will be formatted as a list in the PDF output.
+As you can see, body entries contain a location, (optional) position, and date; it can also have any number of description lines, which will be formatted as a list in the PDF output.
 
-If you only have one particular entry for a given header, you can drop the trailing 1 in the entry name:
+If you only have one particular entry for a given header, or for a list like `Info` or `Description`, you can drop the trailing 1:
 
     [Experience]
     Location: Company, Inc.
     Position: Associate Person
     Date: Summer 2012 and 2013
-    Description 1: Did a few things
+    Description: Did a few things
 
 Also note that instead of a `Start Date` and `End Date` entry, you can use a simple `Date` entry instead.
 

@@ -7,7 +7,7 @@ Info 3: example.com/john.doe
 [Education 1]
 Location: University of Wherever
 Position: Degree in Something
-Start Date: September 2010
+Start Date: Sept 2010
 End Date: May 2014
 Description 1: Learned the thing
 Description 2: Did the thing
@@ -15,7 +15,7 @@ Description 2: Did the thing
 [Education 2]
 Location: University of Wherever
 Position: Master's Degree in Something
-Start Date: September 2014
+Start Date: Sept 2014
 End Date: present
 Description 1: Learned the master's thing
 Description 2: Did the master's thing
@@ -24,7 +24,7 @@ Description 2: Did the master's thing
 Location: Company, Inc.
 Position: Associate Person
 Date: Summer 2012 and 2013
-Description 1: Did a few things
+Description: Did a few things
 
 [Skills]
 Name: Technical Skills
