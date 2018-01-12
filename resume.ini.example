@@ -5,26 +5,26 @@ Info 2: 555-867-5309 | 555-999-1234
 Info 3: example.com/john.doe
 
 [Education 1]
+Degree: BA
 Location: University of Wherever
-Position: Degree in Something
+Position: Something
 Start Date: Sept 2010
 End Date: May 2014
-Description 1: Learned the thing
-Description 2: Did the thing
+Description: Learned the thing
 
 [Education 2]
+Degree: PhD
 Location: University of Wherever
-Position: Master's Degree in Something
+Position: Something
 Start Date: Sept 2014
 End Date: present
-Description 1: Learned the master's thing
-Description 2: Did the master's thing
 
 [Experience]
 Location: Company, Inc.
 Position: Associate Person
 Date: Summer 2012 and 2013
-Description: Did a few things
+Description 1: Did a few things
+Description 2: Did a few more things
 
 [Skills]
 Name: Technical Skills

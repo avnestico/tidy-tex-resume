@@ -29,27 +29,46 @@ The head should always be the first section of your INI, in much the same way th
 
 #### 2. [Body]
 
-The body is the only section of your INI that should contain multiple entries. Rather than being named "Body", these entries will be named with the header you want them to be placed under. For instance, you can write down the places you went to school in a series of entries named `[Education 1]`, `[Education 2]`, and so on:
+You may have multiple Body entries. Rather than being named "Body", these entries will be named with the header you want them to be placed under. For instance, you can write down the places you worked in a series of entries named `[Experience 1]`, `[Experience 2]`, and so on:
 
-    [Education 1]
-    Location: University of Wherever  
-    Position: Degree in Something
+    [Experience 1]
+    Location: Company, Inc.
+    Position: Associate Person
     Start Date: Sept 2010
     End Date: May 2014
-    Description 1: Learned the thing
-    Description 2: Did the thing
+    Description 1: Did a few things
+    Description 2: Learned the thing
 
 As you can see, body entries contain a location, (optional) position, and date; they can also have any number of description lines, which will be formatted as a list in the PDF output.
 
 If you only have one particular entry for a given header, or for a list like `Info` or `Description`, you can drop the trailing 1:
 
-    [Experience]
+    [Extracurriculars]
     Location: Company, Inc.
-    Position: Associate Person
+    Position: Volunteer Person
     Date: Summer 2012 and 2013
     Description: Did a few things
 
 Also note that instead of a `Start Date` and `End Date` entry, you can use a simple `Date` entry.
+
+#### 3. [Education]
+
+You may have multiple Education entries.
+
+    [Education 1]
+    Degree: BSc
+    Location: University of Wherever
+    Position: Something
+    Start Date: Sept 2010
+    End Date: May 2014
+    Description 1: Learned the thing
+    Description 2: Did the thing
+
+As you can see, educationn entries contain a degree, location, (optional) course, and date; they can also have zero or one description lines, which will be formatted as a list in the PDF output if present.
+
+TODO: Determine whether multiple description lines are useful to include.
+
+As with Body sections, instead of a `Start Date` and `End Date` entry, you can use a simple `Date` entry.
 
 #### 3. [Skills]
 

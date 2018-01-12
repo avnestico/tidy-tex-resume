@@ -76,8 +76,10 @@ def section_to_tex(section, section_dict):
     """
     if section == "Head":
         return print_section_head(section_dict)
-    elif section == "Skills":
+    elif section == "Skills" or section == "Hobbies":
         return print_section_skills(section_dict)
+    elif "Education" in section:
+        return print_section_education(section, section_dict)
     else:
         return print_section_entry(section, section_dict)
 
@@ -149,6 +151,47 @@ def print_section_skills(section_dict):
     text += "\\resumeskills\n"
     text += add_repeat_section_line("skill", section_dict)
     text += "\\resumeskillsend\n\n"
+    return text
+
+def print_section_education(section, section_dict):
+    """ Convert the education section to TeX
+
+    :param section_dict:
+    :return:
+    """
+    ends_with_number = re.match("^(.*)(\d+)$", section)
+
+    # Determine title of segment
+    text = ""
+    if not ends_with_number:
+        text += "\\section*{" + section.strip() + "}\n\n"
+    if ends_with_number and int(ends_with_number.group(2)) == 1:
+        text += "\\section*{" + str(ends_with_number.group(1)).strip() + "}\n\n"
+    # if the segment ends with a number that isn't "1",
+        # print nothing and assume that it's a continuation of a previous segment under the same header
+
+    text += "\\educationentry\n"
+    text += add_section_line(section_dict["degree"])
+    text += add_section_line(section_dict["location"])
+    if "course" in section_dict:
+        text += add_section_line(section_dict["course"])
+    else:
+        text += add_section_line()
+
+    if "date" in section_dict:
+        text += add_section_line(section_dict["date"])
+        # Add a blank entry so that the TeX \resumeentry function takes in the correct number of arguments
+        text += add_section_line()
+    else:  # The date is assumed to be in two separate parts, start and end
+        text += add_section_line(section_dict["start date"])
+        text += add_section_line(section_dict["end date"])
+
+    if "description" in section_dict:
+        text += add_section_line(section_dict["description"])
+    else:
+        text += add_section_line()
+
+    text += "\n"
     return text
 
 
