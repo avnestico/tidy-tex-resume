@@ -74,11 +74,11 @@ def section_to_tex(section, section_dict):
     :param section_dict:
     :return:
     """
-    if section == "Head":
+    if section == "Head" or ("type" in section_dict and section_dict["type"].lower() == "head"):
         return print_section_head(section_dict)
-    elif section == "Skills" or section == "Hobbies":
+    elif section == "Skills" or ("type" in section_dict and section_dict["type"].lower() == "skills"):
         return print_section_skills(section_dict)
-    elif "Education" in section:
+    elif "Education" in section or ("type" in section_dict and section_dict["type"].lower() == "education"):
         return print_section_education(section, section_dict)
     else:
         return print_section_entry(section, section_dict)
