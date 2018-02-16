@@ -63,18 +63,20 @@
 
 \newcommand{\educationentry}[6]
 {
-	\vspace{9pt} \noindent \begin{tabular}{L{.10\textwidth} L{.65\textwidth} R{.25\textwidth}}
+	\vspace{7pt} \hspace{-10pt} \begin{tabular}{L{.10\textwidth} L{.63\textwidth} R{.25\textwidth}}
 
     \Large #1 & #2\ifthenelse{\equal{#2}{}}{}{ -- }#3 & \small \textit{#4\ifthenelse{\equal{#4}{}}{}{ -- }#5} \end{tabular}
 
-	\vspace{2pt}
+	\vspace{-7pt}
 
 	\ifthenelse{\equal{#6}{}}{}
 	{
-		\vspace{2pt} \begin{blockquote}
-		\item #6
-		\end{blockquote} \vspace{-3pt}
+		\vspace{7pt} \hspace{-9pt} \begin{tabular}{L{.10\textwidth} L{.63\textwidth} R{.25\textwidth}}
+		& #6 &
+		\end{tabular} \vspace{-23pt}
 	}
+
+	\vspace{3pt}
 }
 
 %-----------------------------------------------------------
@@ -117,9 +119,7 @@
 
 \newcommand{\resumeskills}
 {
-	\vspace{11pt}
-
-	\begin{blockquote}
+	\vspace{7pt} \begin{blockquote}
 	
 	\@rscheck
 }
