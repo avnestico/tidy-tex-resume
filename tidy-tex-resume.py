@@ -187,11 +187,11 @@ def print_section_education(section, section_dict):
         text += add_section_line(section_dict["end date"])
 
     if "description" in section_dict:
-        text += add_section_line(section_dict["description"])
+        text += add_section_line(section_dict["description"]) + "%"
     else:
-        text += add_section_line()
+        text += add_section_line() + "%"
 
-    text += "\n"
+    text += "%\n"
     return text
 
 

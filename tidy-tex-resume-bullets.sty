@@ -64,7 +64,7 @@
 
 \newcommand{\educationentry}[6]
 {
-	\vspace{9pt} \begin{tabular}{L{.10\textwidth} L{.61\textwidth} R{.25\textwidth}}
+	\vspace{11pt} \hspace{-19pt} \begin{tabular}{L{.10\textwidth} L{.65\textwidth} R{.25\textwidth}}
 	
     \Large #1 & #2\ifthenelse{\equal{#2}{}}{}{ -- }#3 & \small \textit{#4\ifthenelse{\equal{#4}{}}{}{ -- }#5} \end{tabular}
 
@@ -76,6 +76,8 @@
 		\item #6
 		\end{itemize*} \vspace{-12pt}
 	}
+
+    \@ifnextchar\educationentry{\vspace{-2pt}}{\vspace{3pt}}
 }
 
 %-----------------------------------------------------------
